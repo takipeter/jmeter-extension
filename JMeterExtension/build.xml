@@ -1,0 +1,50 @@
+<project name="server-loadtest" default="all" basedir="." >
+	<property file="build.properties" />
+
+	<property name="lib.dir" location="./lib"/>
+	<property name="server.lib.dir" location="${SERVER_LIBS_HOME}"/>
+
+	<target name="clean">
+	    <delete dir="classes"/>
+	    <delete dir="build"/>
+	</target>
+
+	<target name="compile" >
+		<mkdir dir="classes"/>		
+		<mkdir dir="build"/>
+
+		<javac srcdir="src" destdir="classes" deprecation="off" debug="on" target="1.7" source="1.7" includeantruntime="false">
+		    <classpath>		        
+			    <fileset dir="${lib.dir}">  
+		        	<include name="**/*.jar"/>  
+		        </fileset>
+		       <fileset dir="${server.lib.dir}">  
+		        	<include name="**/*.jar"/>  
+		        </fileset>
+		    </classpath>
+			<include name="**/*.java"/>
+		</javac>
+	</target>
+	
+	<target name="jmeter-jar" depends="compile">
+		<mkdir dir="build"/>
+
+		<jar basedir="." jarfile="build/jmeter-plugin.jar" includes="META-INF/**">
+			<fileset dir="classes">
+				<include name="com/tpeter/loadtest/jmeter/**"/>
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="jar" depends="jmeter-jar"/>
+	
+	<target name="all" depends="clean, jar"/>
+    
+<!-- use ${out} as arg line param	 -->
+<!--	<target name="input-runargs" unless="out" -->
+<!-- 		description="prompts for command line arguments"> -->
+<!-- 		<input addProperty="out"  -->
+<!-- 			message="Define output directory (-Dout='c:\Users\Peter\input'):"/> -->
+<!-- 	</target> -->
+
+</project>
