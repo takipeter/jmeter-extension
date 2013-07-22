@@ -18,9 +18,6 @@
 			    <fileset dir="${lib.dir}">  
 		        	<include name="**/*.jar"/>  
 		        </fileset>
-		       <fileset dir="${server.lib.dir}">  
-		        	<include name="**/*.jar"/>  
-		        </fileset>
 		    </classpath>
 			<include name="**/*.java"/>
 		</javac>
